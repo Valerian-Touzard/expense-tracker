@@ -1,5 +1,7 @@
 import { Button, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
+import Summary from "../summary";
+import ExpenseView from "../expense-view";
 
 const Main = () => {
   return (
@@ -17,8 +19,15 @@ const Main = () => {
           </Button>
         </Flex>
       </Flex>
-      <Flex>
-        
+      <Summary />
+      <Flex
+        w="full"
+        alignItems={"flex-start"}
+        justifyContent={"space-evenly"}
+        flexDirection={["column", "column", "column", "row", "row"]}
+      >
+        <ExpenseView />
+        <ExpenseView />
       </Flex>
     </Flex>
   );
