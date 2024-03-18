@@ -16,7 +16,7 @@ type GlobalContextType = {
 
 export type FormData = {
   type: "expense" | "income";
-  amount: number;
+  amount: string;
   description: string;
 };
 
@@ -32,7 +32,7 @@ export const GlobalContext = createContext<GlobalContextType | undefined>(
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
   const [formData, setFormData] = useState<FormData>({
     type: "expense",
-    amount: 0,
+    amount: "0",
     description: "",
   });
   const [value, setValue] = useState("expense");

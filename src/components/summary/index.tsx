@@ -6,9 +6,11 @@ import TransactionChartSummary from "../chart";
 type Props ={
   onClose: () => void;
   isOpen: boolean;
+  totalIncome: number;
+  totalExpense: number;
 }
 
-const Summary = ({onClose, isOpen}: Props) => {
+const Summary = ({onClose, isOpen, totalExpense, totalIncome}: Props) => {
   return (
     <Box
       p="6"
@@ -41,17 +43,17 @@ const Summary = ({onClose, isOpen}: Props) => {
           mr={"2"}
         >
           <Heading size={"md"} mb={"4"} color={"gray.600"}>
-            Balance is 100
+            Balance is $ {totalIncome - totalExpense}
           </Heading>
           <Flex justifyContent={'space-evenly'} alignItems={'center'} bg={'gray.50'} w="full" h='100px' border={'1px solid'} borderColor={'gray.100'}>
             <Flex flexDirection={'column'}>
-                <Heading color={'gray.700'}>$ 100</Heading>
+                <Heading color={'gray.700'}>$ {totalIncome}</Heading>
                 <Text color={'gray.600'}>Total Income</Text>
             </Flex>
           </Flex>
           <Flex justifyContent={'space-evenly'} alignItems={'center'} bg={'gray.50'} w="full" h='100px' border={'1px solid'} borderColor={'gray.100'}>
             <Flex flexDirection={'column'}>
-                <Heading color={'gray.700'}>$ 100</Heading>
+                <Heading color={'gray.700'}>$ {totalExpense}</Heading>
                 <Text color={'gray.600'}>Total Expense</Text>
             </Flex>
           </Flex>
