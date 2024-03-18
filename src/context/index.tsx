@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 type GlobalContextType = {
-  formData: FormData,
+  formData: FormData;
   setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -9,8 +9,8 @@ type GlobalContextType = {
   setTotalExpense: React.Dispatch<React.SetStateAction<number>>;
   totalIncome: number;
   setTotalIncome: React.Dispatch<React.SetStateAction<number>>;
-  allTransaction: FormData[];
-  setAllTransaction: React.Dispatch<React.SetStateAction<FormData[]>>;
+  allTransaction: StoreFormData[];
+  setAllTransaction: React.Dispatch<React.SetStateAction<StoreFormData[]>>;
   handleFormSubmit: () => void;
 };
 
@@ -20,7 +20,14 @@ export type FormData = {
   description: string;
 };
 
-export const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
+type StoreFormData = {
+  id: number;
+  transaction: FormData;
+};
+
+export const GlobalContext = createContext<GlobalContextType | undefined>(
+  undefined
+);
 
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
   const [formData, setFormData] = useState<FormData>({
@@ -28,15 +35,19 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
     amount: 0,
     description: "",
   });
-
   const [value, setValue] = useState("expense");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
-  const [allTransaction, setAllTransaction] = useState<FormData[]>([]);
+  const [allTransaction, setAllTransaction] = useState<StoreFormData[]>([]);
 
-  const handleFormSubmit = () =>{
-    console.log(formData);
-  }
+  const handleFormSubmit = () => {
+    if (!formData.description || !formData.amount) return;
+
+    setAllTransaction([
+      ...allTransaction,
+      { transaction: formData, id: Date.now() },
+    ]);
+  };
 
   return (
     <GlobalContext.Provider
