@@ -20,7 +20,7 @@ export type FormData = {
   description: string;
 };
 
-type StoreFormData = {
+export type StoreFormData = {
   id: number;
   transaction: FormData;
 };
