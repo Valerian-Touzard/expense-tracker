@@ -1,6 +1,7 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
 import TransactionForm from "../add-transction";
+import TransactionChartSummary from "../chart";
 
 type Props ={
   onClose: () => void;
@@ -56,7 +57,9 @@ const Summary = ({onClose, isOpen}: Props) => {
           </Flex>
         </Flex>
         <Box flex={1} mt={'10'} ml={'-90px'} mr={'5'} width={'300px'} height={'300px'} display={'flex'} alignItems={'center'} justifyContent={'center'}>
-            <Heading>Chart</Heading>
+            <Heading>
+              <TransactionChartSummary income={100} expense={1000} />
+            </Heading>
         </Box>
       </Flex>
       <TransactionForm onClose={onClose} isOpen={isOpen}/>
