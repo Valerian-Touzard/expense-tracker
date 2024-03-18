@@ -1,6 +1,19 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-export const GlobalContext = createContext({});
+type GlobalContextType = {
+  formData: FormData,
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
+  value: string;
+  setValue: React.Dispatch<React.SetStateAction<string>>;
+  totalExpense: number;
+  setTotalExpense: React.Dispatch<React.SetStateAction<number>>;
+  totalIncome: number;
+  setTotalIncome: React.Dispatch<React.SetStateAction<number>>;
+  allTransaction: FormData[];
+  setAllTransaction: React.Dispatch<React.SetStateAction<FormData[]>>;
+};
+
+export const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export type FormData = {
   type: "expense" | "income";
@@ -8,7 +21,7 @@ export type FormData = {
   description: string;
 };
 
-const GlobalState = ({ children }: React.PropsWithChildren) => {
+export const GlobalState = ({ children }: React.PropsWithChildren) => {
   const [formData, setFormData] = useState<FormData>({
     type: "expense",
     amount: 0,
@@ -23,6 +36,8 @@ const GlobalState = ({ children }: React.PropsWithChildren) => {
   return (
     <GlobalContext.Provider
       value={{
+        formData,
+        setFormData,
         value,
         setValue,
         totalExpense,
@@ -38,4 +53,11 @@ const GlobalState = ({ children }: React.PropsWithChildren) => {
   );
 };
 
-export default GlobalState;
+// Hook personnalisé pour utiliser le contexte dans les composants enfants
+export const useGlobalState = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error("useGlobalState must be used within a GlobalStateProvider");
+  }
+  return context;
+};

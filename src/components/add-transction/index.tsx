@@ -14,6 +14,7 @@ import {
   RadioGroup,
 } from "@chakra-ui/react";
 import React from "react";
+import { GlobalContext, useGlobalState } from "../../context";
 
 type Props = {
     isOpen: boolean;
@@ -21,6 +22,9 @@ type Props = {
 }
 
 const TransactionForm = ({isOpen, onClose}: Props) => {
+
+  const {formData, setFormData, value, setValue} = useGlobalState()
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form>
