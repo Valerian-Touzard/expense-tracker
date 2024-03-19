@@ -27,7 +27,7 @@ const ExpenseView = ({ type, data }: Props) => {
         </Heading>
       </Flex>
       {data.map((item) => (
-        <>
+        <div key={item.id}>
           <Flex
             bg={type === "expense" ? "red.50" : "blue.50"}
             mt={"4"}
@@ -45,7 +45,7 @@ const ExpenseView = ({ type, data }: Props) => {
             </Flex>
             <Text>$ {item.amount}</Text>
           </Flex>
-        </>
+        </div>
       ))}
     </Box>
   );
