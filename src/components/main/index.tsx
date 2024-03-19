@@ -19,10 +19,10 @@ const Main = () => {
     let income = 0;
     let expense = 0;
 
-    allTransaction.forEach((item) =>
-      item.transaction.type === "income"
-        ? (income = income + parseFloat(item.transaction.amount))
-        : (expense = expense + parseFloat(item.transaction.amount))
+    allTransaction.forEach((transaction) =>
+      transaction.type === "income"
+        ? (income = income + parseFloat(transaction.amount))
+        : (expense = expense + parseFloat(transaction.amount))
     );
     setTotalExpense(expense);
     setTotalIncome(income)
@@ -50,8 +50,8 @@ const Main = () => {
         justifyContent={"space-evenly"}
         flexDirection={["column", "column", "column", "row", "row"]}
       >
-        <ExpenseView data={allTransaction.filter(item => item.transaction.type === 'expense')} type="expense"/>
-        <ExpenseView data={allTransaction.filter(item => item.transaction.type === 'income')} type="income" />
+        <ExpenseView data={allTransaction.filter(item => item.type === 'expense')} type="expense"/>
+        <ExpenseView data={allTransaction.filter(item => item.type === 'income')} type="income" />
       </Flex>
     </Flex>
   );

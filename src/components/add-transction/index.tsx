@@ -22,18 +22,18 @@ type Props = {
 };
 
 const TransactionForm = ({ isOpen, onClose }: Props) => {
-  const { formData, setFormData, value, setValue, handleFormSubmit } = useGlobalState();
+  const { value, setValue } = useGlobalState();
 
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    // setFormData({
+    //   ...formData,
+    //   [e.target.name]: e.target.value,
+    // });
   };
 
   const handleSubmit = (e:FormEvent<HTMLFormElement>) =>{
     e.preventDefault();
-    handleFormSubmit();
+    // handleFormSubmit();
   }
 
   return (
@@ -64,7 +64,7 @@ const TransactionForm = ({ isOpen, onClose }: Props) => {
             </FormControl>
             <RadioGroup mt="5" value={value} onChange={setValue}>
               <Radio
-                checked={formData.type === "income"}
+                // checked={formData.type === "income"}
                 value="income"
                 colorScheme="blue"
                 name="type"
@@ -73,7 +73,7 @@ const TransactionForm = ({ isOpen, onClose }: Props) => {
                 Income
               </Radio>
               <Radio
-                checked={formData.type === "expense"}
+                // checked={formData.type === "expense"}
                 value="expense"
                 colorScheme="red"
                 name="type"

@@ -1,20 +1,19 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { transactionService } from "../services/transactionService";
 
 type GlobalContextType = {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   totalExpense: number;
   setTotalExpense: React.Dispatch<React.SetStateAction<number>>;
   totalIncome: number;
   setTotalIncome: React.Dispatch<React.SetStateAction<number>>;
-  allTransaction: StoreFormData[];
-  setAllTransaction: React.Dispatch<React.SetStateAction<StoreFormData[]>>;
-  handleFormSubmit: () => void;
+  allTransaction: FormData[];
+  setAllTransaction: React.Dispatch<React.SetStateAction<FormData[]>>;
 };
 
 export type FormData = {
+  id: number
   type: "expense" | "income";
   amount: string;
   description: string;
@@ -30,30 +29,23 @@ export const GlobalContext = createContext<GlobalContextType | undefined>(
 );
 
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
-  const [formData, setFormData] = useState<FormData>({
-    type: "expense",
-    amount: "0",
-    description: "",
-  });
   const [value, setValue] = useState("expense");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
-  const [allTransaction, setAllTransaction] = useState<StoreFormData[]>([]);
+  const [allTransaction, setAllTransaction] = useState<FormData[]>([]);
 
-  const handleFormSubmit = () => {
-    if (!formData.description || !formData.amount) return;
+  useEffect(() => {
+    getAllTransaction()
+  },[])
 
-    setAllTransaction([
-      ...allTransaction,
-      { transaction: formData, id: Date.now() },
-    ]);
-  };
+  const getAllTransaction = () =>{
+    transactionService.getAllTransactions().then(data => setAllTransaction(data));
+    console.log(allTransaction)
+  }
 
   return (
     <GlobalContext.Provider
       value={{
-        formData,
-        setFormData,
         value,
         setValue,
         totalExpense,
@@ -61,8 +53,7 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
         totalIncome,
         setTotalIncome,
         allTransaction,
-        setAllTransaction,
-        handleFormSubmit,
+        setAllTransaction
       }}
     >
       {children}
