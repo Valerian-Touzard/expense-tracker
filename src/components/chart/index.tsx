@@ -1,6 +1,7 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
+// Option de css pour le graphique
 const options: ApexCharts.ApexOptions = {
   labels: ["Income", "Expense"],
   colors: ["#213ebf", "#FD5E53"],

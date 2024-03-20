@@ -1,36 +1,42 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { transactionService } from "../services/transactionService";
 
+// Le type de tretour pour le context
 type GlobalContextType = {
-  formData: FormData;
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   totalExpense: number;
   setTotalExpense: React.Dispatch<React.SetStateAction<number>>;
   totalIncome: number;
   setTotalIncome: React.Dispatch<React.SetStateAction<number>>;
-  allTransaction: StoreFormData[];
-  setAllTransaction: React.Dispatch<React.SetStateAction<StoreFormData[]>>;
-  handleFormSubmit: () => void;
+  allTransaction: FormData[];
+  setAllTransaction: React.Dispatch<React.SetStateAction<FormData[]>>;
+  formData: FormulaireTransaction,
+  setFormData: React.Dispatch<React.SetStateAction<FormulaireTransaction>>;
+  handleFormSubmit: () => void,
+  getAllTransaction: () => void
 };
 
 export type FormData = {
+  id: number
   type: "expense" | "income";
   amount: string;
   description: string;
 };
 
-export type StoreFormData = {
-  id: number;
-  transaction: FormData;
-};
+export type FormulaireTransaction = {
+  type: "expense" | "income";
+  amount: string;
+  description: string;
+}
 
 export const GlobalContext = createContext<GlobalContextType | undefined>(
   undefined
 );
 
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
-  const [formData, setFormData] = useState<FormData>({
+  // état qui contient l'objet créer dans le formulaire
+  const [formData, setFormData] = useState<FormulaireTransaction>({
     type: "expense",
     amount: "0",
     description: "",
@@ -38,22 +44,33 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
   const [value, setValue] = useState("expense");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
-  const [allTransaction, setAllTransaction] = useState<StoreFormData[]>([]);
+  const [allTransaction, setAllTransaction] = useState<FormData[]>([]);
 
+  useEffect(() => {
+    getAllTransaction()
+  },[])
+
+  /**
+   * Permet de récupérer, via le service, l'ensemble des transactions stocker en bdd
+   */
+  const getAllTransaction = () =>{
+    transactionService.getAllTransactions().then(data => setAllTransaction(data));
+  }
+
+  /**
+   * Permet d'enregistrer en bdd, une nouvelle transaction, via le service
+   * @returns unknow
+   */
   const handleFormSubmit = () => {
     if (!formData.description || !formData.amount) return;
 
-    setAllTransaction([
-      ...allTransaction,
-      { transaction: formData, id: Date.now() },
-    ]);
+    transactionService.AddTransaction(formData);
+    getAllTransaction()
   };
 
   return (
     <GlobalContext.Provider
       value={{
-        formData,
-        setFormData,
         value,
         setValue,
         totalExpense,
@@ -62,7 +79,10 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
         setTotalIncome,
         allTransaction,
         setAllTransaction,
+        formData,
+        setFormData,
         handleFormSubmit,
+        getAllTransaction
       }}
     >
       {children}

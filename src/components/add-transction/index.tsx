@@ -22,8 +22,19 @@ type Props = {
 };
 
 const TransactionForm = ({ isOpen, onClose }: Props) => {
-  const { formData, setFormData, value, setValue, handleFormSubmit } = useGlobalState();
+  const {
+    value,
+    setValue,
+    formData,
+    setFormData,
+    handleFormSubmit,
+    getAllTransaction,
+  } = useGlobalState();
 
+  /**
+   * Permet de sauvegader dans l'état, les modifications apporter depuis le formulaire d'ajout
+   * @param e ChangeEvent<HTMLInputElement>
+   */
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -31,10 +42,15 @@ const TransactionForm = ({ isOpen, onClose }: Props) => {
     });
   };
 
-  const handleSubmit = (e:FormEvent<HTMLFormElement>) =>{
+  /**
+   * Permet d'envoyer, via le service, l'objet contenant les informations de notre nouvelle transaction en bdd
+   * @param e FormEvent<HTMLFormElement>
+   */
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleFormSubmit();
-  }
+    await handleFormSubmit();
+    getAllTransaction();
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -87,7 +103,9 @@ const TransactionForm = ({ isOpen, onClose }: Props) => {
             <Button mr={"4"} onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" onClick={onClose}>Add</Button>
+            <Button type="submit" onClick={onClose}>
+              Add
+            </Button>
           </ModalFooter>
         </ModalContent>
       </form>

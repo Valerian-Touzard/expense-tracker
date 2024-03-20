@@ -1,10 +1,10 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React from "react";
-import { StoreFormData } from "../../context";
+import { FormData } from "../../context";
 
 type Props = {
   type: string;
-  data: StoreFormData[];
+  data: FormData[];
 };
 
 const ExpenseView = ({ type, data }: Props) => {
@@ -27,7 +27,7 @@ const ExpenseView = ({ type, data }: Props) => {
         </Heading>
       </Flex>
       {data.map((item) => (
-        <>
+        <div key={item.id}>
           <Flex
             bg={type === "expense" ? "red.50" : "blue.50"}
             mt={"4"}
@@ -40,12 +40,12 @@ const ExpenseView = ({ type, data }: Props) => {
           >
             <Flex alignItems={"center"} justifyContent={"center"}>
               <Text ml="3" fontWeight="bold" color="gray.600">
-                {item.transaction.description}
+                {item.description}
               </Text>
             </Flex>
-            <Text>$ {item.transaction.amount}</Text>
+            <Text>$ {item.amount}</Text>
           </Flex>
-        </>
+        </div>
       ))}
     </Box>
   );
