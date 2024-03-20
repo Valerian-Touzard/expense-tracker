@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { transactionService } from "../services/transactionService";
 
+// Le type de tretour pour le context
 type GlobalContextType = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
@@ -29,16 +30,12 @@ export type FormulaireTransaction = {
   description: string;
 }
 
-export type StoreFormData = {
-  id: number;
-  transaction: FormData;
-};
-
 export const GlobalContext = createContext<GlobalContextType | undefined>(
   undefined
 );
 
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
+  // état qui contient l'objet créer dans le formulaire
   const [formData, setFormData] = useState<FormulaireTransaction>({
     type: "expense",
     amount: "0",
@@ -53,10 +50,17 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
     getAllTransaction()
   },[])
 
+  /**
+   * Permet de récupérer, via le service, l'ensemble des transactions stocker en bdd
+   */
   const getAllTransaction = () =>{
     transactionService.getAllTransactions().then(data => setAllTransaction(data));
   }
 
+  /**
+   * Permet d'enregistrer en bdd, une nouvelle transaction, via le service
+   * @returns unknow
+   */
   const handleFormSubmit = () => {
     if (!formData.description || !formData.amount) return;
 

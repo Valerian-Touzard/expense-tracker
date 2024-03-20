@@ -1,11 +1,19 @@
 import { FormulaireTransaction } from "../context";
 
 class TransactionService {
+  /**
+   * Permet, via notre backend, de récupérer l'ensemble des transactions stocker dans notre base de données
+   * @returns response json
+   */
   async getAllTransactions() {
     return await fetch("http://localhost:8080/transactions")
       .then((response) => response.json())
       .catch((err) => console.error(err));
   }
+  /**
+   * Permet d'enregistrer, via notre backend, une nouvelle transaction dans notre base de données
+   * @param transaction FormulaireTransaction
+   */
   async AddTransaction(transaction: FormulaireTransaction) {
     return await fetch("http://localhost:8080/transactions/create", {
       method: "POST",

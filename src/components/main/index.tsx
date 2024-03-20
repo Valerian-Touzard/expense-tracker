@@ -13,7 +13,7 @@ const Main = () => {
     setTotalExpense,
     allTransaction,
     setAllTransaction,
-    getAllTransaction
+    getAllTransaction,
   } = useGlobalState();
 
   useEffect(() => {
@@ -26,12 +26,12 @@ const Main = () => {
         : (expense = expense + parseFloat(transaction.amount))
     );
     setTotalExpense(expense);
-    setTotalIncome(income)
+    setTotalIncome(income);
   }, [allTransaction]);
 
   useEffect(() => {
-    getAllTransaction()
-  }, [])
+    getAllTransaction();
+  }, []);
 
   return (
     <Flex textAlign={"center"} flexDirection={"column"} pr={"5"} pl={"5"}>
@@ -48,15 +48,26 @@ const Main = () => {
           </Button>
         </Flex>
       </Flex>
-      <Summary totalExpense={totalExpense} totalIncome={totalIncome} isOpen={isOpen} onClose={onClose} />
+      <Summary
+        totalExpense={totalExpense}
+        totalIncome={totalIncome}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
       <Flex
         w="full"
         alignItems={"flex-start"}
         justifyContent={"space-evenly"}
         flexDirection={["column", "column", "column", "row", "row"]}
       >
-        <ExpenseView data={allTransaction.filter(item => item.type === 'expense')} type="expense"/>
-        <ExpenseView data={allTransaction.filter(item => item.type === 'income')} type="income" />
+        <ExpenseView
+          data={allTransaction.filter((item) => item.type === "expense")}
+          type="expense"
+        />
+        <ExpenseView
+          data={allTransaction.filter((item) => item.type === "income")}
+          type="income"
+        />
       </Flex>
     </Flex>
   );
