@@ -10,6 +10,10 @@ type GlobalContextType = {
   setTotalIncome: React.Dispatch<React.SetStateAction<number>>;
   allTransaction: FormData[];
   setAllTransaction: React.Dispatch<React.SetStateAction<FormData[]>>;
+  formData: FormulaireTransaction,
+  setFormData: React.Dispatch<React.SetStateAction<FormulaireTransaction>>;
+  handleFormSubmit: () => void,
+  getAllTransaction: () => void
 };
 
 export type FormData = {
@@ -18,6 +22,12 @@ export type FormData = {
   amount: string;
   description: string;
 };
+
+export type FormulaireTransaction = {
+  type: "expense" | "income";
+  amount: string;
+  description: string;
+}
 
 export type StoreFormData = {
   id: number;
@@ -29,6 +39,11 @@ export const GlobalContext = createContext<GlobalContextType | undefined>(
 );
 
 export const GlobalState = ({ children }: React.PropsWithChildren) => {
+  const [formData, setFormData] = useState<FormulaireTransaction>({
+    type: "expense",
+    amount: "0",
+    description: "",
+  });
   const [value, setValue] = useState("expense");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
@@ -40,8 +55,14 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
 
   const getAllTransaction = () =>{
     transactionService.getAllTransactions().then(data => setAllTransaction(data));
-    console.log(allTransaction)
   }
+
+  const handleFormSubmit = () => {
+    if (!formData.description || !formData.amount) return;
+
+    transactionService.AddTransaction(formData);
+    getAllTransaction()
+  };
 
   return (
     <GlobalContext.Provider
@@ -53,7 +74,11 @@ export const GlobalState = ({ children }: React.PropsWithChildren) => {
         totalIncome,
         setTotalIncome,
         allTransaction,
-        setAllTransaction
+        setAllTransaction,
+        formData,
+        setFormData,
+        handleFormSubmit,
+        getAllTransaction
       }}
     >
       {children}

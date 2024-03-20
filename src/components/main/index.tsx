@@ -13,6 +13,7 @@ const Main = () => {
     setTotalExpense,
     allTransaction,
     setAllTransaction,
+    getAllTransaction
   } = useGlobalState();
 
   useEffect(() => {
@@ -27,6 +28,10 @@ const Main = () => {
     setTotalExpense(expense);
     setTotalIncome(income)
   }, [allTransaction]);
+
+  useEffect(() => {
+    getAllTransaction()
+  }, [])
 
   return (
     <Flex textAlign={"center"} flexDirection={"column"} pr={"5"} pl={"5"}>
