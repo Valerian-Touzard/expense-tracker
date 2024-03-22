@@ -1,6 +1,7 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { FormData } from "../../context";
+import { EditIcon } from "@chakra-ui/icons";
 
 type Props = {
   type: string;
@@ -40,6 +41,12 @@ const ExpenseView = ({ type, data }: Props) => {
           >
             <Flex alignItems={"center"} justifyContent={"center"}>
               <Text ml="3" fontWeight="bold" color="gray.600">
+                <IconButton
+                  variant="solid"
+                  aria-label="Edit transaction"
+                  colorScheme="teal"
+                  icon={<EditIcon />}
+                />
                 {item.description}
               </Text>
             </Flex>
