@@ -26,10 +26,10 @@ class TransactionService {
 
   /**
    * Permet de récupérer une transaction identifier par son id
-   * @param idTransaction string
+   * @param idTransaction number
    * @returns La transaction identifier par son id
    */
-  async getOneTransaction(idTransaction: string) {
+  async getOneTransaction(idTransaction: number) {
     return await fetch(`http://localhost:8080/transactions/${idTransaction}`)
       .then((response) => response.json())
       .catch((err) => console.error(err));
