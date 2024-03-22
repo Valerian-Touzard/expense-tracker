@@ -2,13 +2,17 @@ import { Box, Button, Flex, Heading, IconButton, Text } from "@chakra-ui/react";
 import React from "react";
 import { FormData } from "../../context";
 import { EditIcon } from "@chakra-ui/icons";
+import EditTransaction from "../edit-transaction";
 
 type Props = {
   type: string;
   data: FormData[];
+  isOpen: boolean;
+  onClose: () => void;
+  onOpen: () => void;
 };
 
-const ExpenseView = ({ type, data }: Props) => {
+const ExpenseView = ({ type, data, isOpen, onClose, onOpen }: Props) => {
   return (
     <Box
       flex={1}
@@ -46,12 +50,14 @@ const ExpenseView = ({ type, data }: Props) => {
                   aria-label="Edit transaction"
                   colorScheme="teal"
                   icon={<EditIcon />}
+                  onClick={onOpen}
                 />
                 {item.description}
               </Text>
             </Flex>
             <Text>$ {item.amount}</Text>
           </Flex>
+          <EditTransaction isOpen={isOpen} onClose={onClose} />
         </div>
       ))}
     </Box>

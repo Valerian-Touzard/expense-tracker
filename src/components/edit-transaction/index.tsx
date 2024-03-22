@@ -57,11 +57,11 @@ const EditTransaction = ({ isOpen, onClose }: Props) => {
       <form onSubmit={handleSubmit}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add New Transaction</ModalHeader>
+          <ModalHeader>Edit Transaction</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FormControl>
-              <FormLabel>Enter Description</FormLabel>
+              <FormLabel>Edit Description</FormLabel>
               <Input
                 placeholder="Enter Transaction Description"
                 name="description"
@@ -70,7 +70,7 @@ const EditTransaction = ({ isOpen, onClose }: Props) => {
               />
             </FormControl>
             <FormControl>
-              <FormLabel>Enter Amount</FormLabel>
+              <FormLabel>Edit Amount</FormLabel>
               <Input
                 placeholder="Enter Transaction Amount"
                 name="amount"

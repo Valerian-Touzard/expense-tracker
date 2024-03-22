@@ -63,10 +63,16 @@ const Main = () => {
         <ExpenseView
           data={allTransaction.filter((item) => item.type === "expense")}
           type="expense"
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpen={onOpen}
         />
         <ExpenseView
           data={allTransaction.filter((item) => item.type === "income")}
           type="income"
+          isOpen={isOpen}
+          onClose={onClose}
+          onOpen={onOpen}
         />
       </Flex>
     </Flex>
